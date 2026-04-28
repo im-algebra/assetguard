@@ -11,7 +11,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/backend/app.py"
+      "destination": "https://possibility-awareness-blog-berkeley.trycloudflare.com/api/$1"
     },
     {
       "source": "/(.*)",

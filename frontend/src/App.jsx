@@ -9,7 +9,9 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API = import.meta.env.VITE_API_URL || '/api';
+const API = import.meta.env.VITE_API_URL 
+  ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api` 
+  : '/api';
 
 // ─── Fade animation preset ───
 const fade = {
@@ -319,7 +321,7 @@ function App() {
 
               {/* Asset Grid */}
               <div className="asset-grid inventory-grid">
-                {assets.map((a, i) => (
+                {(Array.isArray(assets) ? assets : []).map((a, i) => (
                   <div key={i} className="glass-card asset-card">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                       {a.type === 'video'
@@ -414,7 +416,7 @@ function App() {
                     )}
                   </div>
 
-                  {scanResult.matches_found && scanResult.matches.map((m, i) => (
+                  {scanResult.matches_found && Array.isArray(scanResult.matches) && scanResult.matches.map((m, i) => (
                     <div key={i} style={{ background: 'rgba(0,0,0,0.35)', borderRadius: 12, padding: '1.25rem', border: '1px solid var(--border)', marginTop: i > 0 ? 12 : 0 }}>
                       {/* Risk badge */}
                       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
@@ -505,7 +507,7 @@ function App() {
                     </tr>
                   </thead>
                   <tbody>
-                    {stats.recent_alerts.map((a, i) => (
+                    {(Array.isArray(stats.recent_alerts) ? stats.recent_alerts : []).map((a, i) => (
                       <tr key={i} style={{ borderBottom: '1px solid var(--border)', transition: 'background 0.2s' }}
                         onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
                         onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>

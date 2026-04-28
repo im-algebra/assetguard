@@ -11,7 +11,8 @@ import random
 app = Flask(__name__)
 CORS(app)
 
-UPLOAD_FOLDER = 'uploads'
+# For Vercel/Serverless deployment, we must use /tmp for writable files
+UPLOAD_FOLDER = '/tmp'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -182,4 +183,6 @@ def remove_detection(id):
     return jsonify({"error": "Detection not found"}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Use the PORT environment variable if available (for Render)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
